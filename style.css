@@ -43,6 +43,10 @@ h2 {font-size: 32px}
 .spaced-top {margin-top: 2.5rem}
 .spaced-bottom {margin-bottom: 2.5rem}
 li {margin-bottom: 1rem}
+input[type="checkbox"] {
+    display: flex;
+    flex-direction: column
+}
 @media (prefers-color-scheme: dark) {
     :root {
         /* --accent: ; */
