@@ -83,7 +83,6 @@ const main = async() => {
                     
                     repo_forked.type = "checkbox";
                     repo_forked.id = "repo-forked";
-                    repo_forked.value = "on";
                     repo_forked.setAttribute("checked", "");
                     repo_forked.disabled = true;
                     repo_info.appendChild(repo_forked);
