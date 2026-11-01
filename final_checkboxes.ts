@@ -1,10 +1,10 @@
-export const helper = (args: {checked: boolean, checked_str: string, id: string, parent: HTMLElement, found_msg: string, what_log: string}) =>
+export const helper = (args: {checked: boolean, checked_data: boolean, id: string, parent: HTMLElement, found_msg: string, what_log: string}) =>
 {
     if (args.checked)
     {
         console.info("Showing all public repositories...");
 
-        if (args.checked_str)
+        if (args.checked_data)
         {
             console.info(args.found_msg ?? "Found");
 
