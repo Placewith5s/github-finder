@@ -19,6 +19,18 @@ const main = async() => {
 
     console.info("Loaded finder and search elements");
 
+    const show_forked: HTMLInputElement | null = main_elem.
+    querySelector("input#show-forked");
+
+    if (!show_forked)
+    {
+        throw new Error(
+            "Invalid show forks checkbox!"
+        );
+    }
+
+    console.info("Loaded show forks element");
+
     const start: string = "https://api.github.com/";
     let user: string = "";
 
@@ -56,6 +68,30 @@ const main = async() => {
         for (const repo of data)
         {
             console.log(repo);
+
+            if (show_forked.checked)
+            {
+                console.info("Showing all public repositories...");
+
+                if (repo["fork"] == "true")
+                {
+                    console.info("Public repo fork found");
+
+                    const repo_forked: HTMLInputElement = document.createElement(
+                        "input"
+                    );
+                    
+                    repo_forked.type = "checkbox";
+                    repo_forked.id = "repo-forked";
+                    repo_forked.value = "on";
+                    repo_forked.setAttribute("checked", "");
+                    repo_forked.disabled = true;
+                    repo_info.appendChild(repo_forked);
+                }
+            } else
+            {
+                console.info("Showing non-forked public repositories...");
+            }
             
             const repo_title: HTMLLIElement = document.createElement(
                 "li"
