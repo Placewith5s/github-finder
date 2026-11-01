@@ -2,7 +2,7 @@ export const helper = (args: {checked: boolean, checked_data: boolean, id: strin
 {
     if (args.checked)
     {
-        console.info("Showing all public repositories...");
+        console.info("Showing public repositories...");
 
         if (args.checked_data)
         {

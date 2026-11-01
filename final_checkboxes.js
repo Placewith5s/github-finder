@@ -1,6 +1,6 @@
 export const helper = (args) => {
     if (args.checked) {
-        console.info("Showing all public repositories...");
+        console.info("Showing public repositories...");
         if (args.checked_data) {
             console.info(args.found_msg ?? "Found");
             const checkbox = document.createElement("input");
