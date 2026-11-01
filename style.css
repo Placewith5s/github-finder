@@ -40,7 +40,8 @@ header h1 {
 }
 h2 {font-size: 32px}
 /* h3 {font-size: 24px} */
-ul {margin-top: 2.5rem}
+.spaced-top {margin-top: 2.5rem}
+.spaced-bottom {margin-bottom: 2.5rem}
 li {margin-bottom: 1rem}
 @media (prefers-color-scheme: dark) {
     :root {

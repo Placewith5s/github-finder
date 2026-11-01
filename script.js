@@ -4,6 +4,8 @@ const main = async () => {
         querySelector("main");
     const repo_info = main_elem.
         querySelector("ul#repo-info");
+    const repo_count = main_elem.
+        querySelector("p#repo-count");
     const finder = main_elem.
         querySelector("input#finder");
     const search_btn = main_elem.
@@ -25,7 +27,9 @@ const main = async () => {
     const start = "https://api.github.com/";
     let user = "";
     let debounce = false;
+    let total_repos = 0;
     search_btn.addEventListener("click", async () => {
+        total_repos = 0;
         if (finder.value.trim() == "")
             return;
         if (!debounce)
@@ -46,7 +50,7 @@ const main = async () => {
             console.log(repo);
             helper({
                 checked: show_forked.checked,
-                checked_str: repo["fork"],
+                checked_data: repo["fork"],
                 id: "repo-forked",
                 parent: repo_info,
                 found_msg: "Public repo fork found",
@@ -54,12 +58,25 @@ const main = async () => {
             });
             helper({
                 checked: show_archived.checked,
-                checked_str: repo["archived"],
+                checked_data: repo["archived"],
                 id: "repo-archived",
                 parent: repo_info,
                 found_msg: "Public repo archive found",
                 what_log: "archived"
             });
+            // console.log(typeof(repo["fork"]));
+            /* ------------------------------------
+                total repo count handler
+            */
+            if ((!repo["fork"] &&
+                !repo["archived"]))
+                total_repos += 1;
+            else if ((repo["fork"] &&
+                !show_forked.checked) ||
+                (repo["archived"] &&
+                    !show_archived.checked))
+                total_repos -= 1;
+            // ------------------------------------
             const repo_title = document.createElement("li");
             const repo_desc = document.createElement("li");
             const strong_elem = document.createElement("strong");
@@ -68,10 +85,12 @@ const main = async () => {
             repo_title.id = "repo-title";
             repo_desc.id = "repo-desc";
             repo_url_holder.id = "repo-url";
+            repo_count.id = "repo-count";
             repo_title.textContent = "Title: ";
             strong_elem.textContent = repo["name"];
             repo_desc.textContent = `Description: ${repo["description"]}`;
             repo_url_holder.textContent = "Link: ";
+            repo_count.textContent = `Total repositories: ${total_repos}`;
             repo_url.textContent = repo["name"];
             repo_url.title = "opens in a new tab";
             repo_url.href = repo["html_url"];
