@@ -1,4 +1,7 @@
-const main = async() => {
+import { helper } from "./final_checkboxes";
+
+const main = async() =>
+{
     const main_elem: HTMLElement = document.body.
     querySelector("main");
     const repo_info: HTMLUListElement = main_elem.
@@ -21,15 +24,18 @@ const main = async() => {
 
     const show_forked: HTMLInputElement | null = main_elem.
     querySelector("input#show-forked");
+    const show_archived: HTMLInputElement | null = main_elem.
+    querySelector("input#show-archived");
 
-    if (!show_forked)
+    if (!show_forked ||
+        !show_archived)
     {
         throw new Error(
-            "Invalid show forks checkbox!"
+            "Invalid show forked or show archived checkbox!"
         );
     }
 
-    console.info("Loaded show forks element");
+    console.info("Loaded show forked and show archived elements");
 
     const start: string = "https://api.github.com/";
     let user: string = "";
@@ -69,28 +75,23 @@ const main = async() => {
         {
             console.log(repo);
 
-            if (show_forked.checked)
-            {
-                console.info("Showing all public repositories...");
+            helper({
+                checked: show_forked.checked,
+                checked_str: repo["fork"],
+                id: "repo-forked",
+                parent: repo_info,
+                found_msg: "Public repo fork found",
+                what_log: "forked"
+            });
 
-                if (repo["fork"] == "true")
-                {
-                    console.info("Public repo fork found");
-
-                    const repo_forked: HTMLInputElement = document.createElement(
-                        "input"
-                    );
-                    
-                    repo_forked.type = "checkbox";
-                    repo_forked.id = "repo-forked";
-                    repo_forked.setAttribute("checked", "");
-                    repo_forked.disabled = true;
-                    repo_info.appendChild(repo_forked);
-                }
-            } else
-            {
-                console.info("Showing non-forked public repositories...");
-            }
+            helper({
+                checked: show_archived.checked,
+                checked_str: repo["archived"],
+                id: "repo-archived",
+                parent: repo_info,
+                found_msg: "Public repo archive found",
+                what_log: "archived"
+            });
             
             const repo_title: HTMLLIElement = document.createElement(
                 "li"

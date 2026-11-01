@@ -1,4 +1,4 @@
-"use strict";
+import { helper } from "./final_checkboxes.js";
 const main = async () => {
     const main_elem = document.body.
         querySelector("main");
@@ -15,10 +15,13 @@ const main = async () => {
     console.info("Loaded finder and search elements");
     const show_forked = main_elem.
         querySelector("input#show-forked");
-    if (!show_forked) {
-        throw new Error("Invalid show forks checkbox!");
+    const show_archived = main_elem.
+        querySelector("input#show-archived");
+    if (!show_forked ||
+        !show_archived) {
+        throw new Error("Invalid show forked or show archived checkbox!");
     }
-    console.info("Loaded show forks element");
+    console.info("Loaded show forked and show archived elements");
     const start = "https://api.github.com/";
     let user = "";
     let debounce = false;
@@ -41,21 +44,22 @@ const main = async () => {
         // console.info(`JSON data: ${JSON.stringify(data)}`);
         for (const repo of data) {
             console.log(repo);
-            if (show_forked.checked) {
-                console.info("Showing all public repositories...");
-                if (repo["fork"] == "true") {
-                    console.info("Public repo fork found");
-                    const repo_forked = document.createElement("input");
-                    repo_forked.type = "checkbox";
-                    repo_forked.id = "repo-forked";
-                    repo_forked.setAttribute("checked", "");
-                    repo_forked.disabled = true;
-                    repo_info.appendChild(repo_forked);
-                }
-            }
-            else {
-                console.info("Showing non-forked public repositories...");
-            }
+            helper({
+                checked: show_forked.checked,
+                checked_str: repo["fork"],
+                id: "repo-forked",
+                parent: repo_info,
+                found_msg: "Public repo fork found",
+                what_log: "forked"
+            });
+            helper({
+                checked: show_archived.checked,
+                checked_str: repo["archived"],
+                id: "repo-archived",
+                parent: repo_info,
+                found_msg: "Public repo archive found",
+                what_log: "archived"
+            });
             const repo_title = document.createElement("li");
             const repo_desc = document.createElement("li");
             const strong_elem = document.createElement("strong");
