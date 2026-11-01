@@ -78,8 +78,10 @@ const main = async() => {
             repo_desc.id = "repo-desc";
             repo_url_holder.id = "repo-url";
 
+            repo_title.textContent = "Title: ";
             strong_elem.textContent = repo["name"];
-            repo_desc.textContent = repo["description"];
+            repo_desc.textContent = `Description: ${repo["description"]}`;
+            repo_url_holder.textContent = "Link: "
 
             repo_url.textContent = repo["name"];
             repo_url.title = "opens in a new tab";
